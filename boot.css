@@ -1,0 +1,10 @@
+div[class="text-danger"] 
+
+
+{
+    color:red;
+}
+div [class="container bg-danger"]
+{
+    color: brown;
+}
