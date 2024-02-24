@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="crudApp">
+<head>
+<meta charset="UTF-8">
+<title>AngularJS CRUD App</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+</head>
+<body>
+<div ng-controller="UserController as userCtrl">
+<h2>User Management</h2>
+<!-- Display Users -->
+<table border="1">
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Actions</th>
+</tr>
+<tr ng-repeat="user in userCtrl.users">
+<td>{{ user.id }}</td>
+<td>{{ user.name }}</td>
+<td>{{ user.email }}</td>
+<td>
+<button ng-click="userCtrl.editUser(user)">Edit</button>
+<button ng-click="userCtrl.deleteUser(user.id)">Delete</button>
+</td>
+</tr>
+</table>
+<!-- Add or Edit User Form -->
+<form ng-submit="userCtrl.saveUser()">
+<label>ID:</label>
+<input type="text" ng-model="userCtrl.currentUser.id" required><br>
+<label>Name:</label>
+<input type="text" ng-model="userCtrl.currentUser.name" required><br>
+<label>Email:</label>
+<input type="email" ng-model="userCtrl.currentUser.email" required><br>
+<button type="submit">{{ userCtrl.isEditing ? 'Update' : 'Add' }}</button>
+</form>
+</div>
+
+<script>
+angular.module('crudApp', [])
+.controller('UserController', function () {
+var vm = this;
+vm.users = [
+{ id: 1, name: 'John Doe', email: 'john@example.com' },
+{ id: 2, name: 'Jane Doe', email: 'jane@example.com' },
+];
+vm.currentUser = {};
+vm.isEditing = false;
+vm.editUser = function (user) {
+vm.currentUser = angular.copy(user);
+vm.isEditing = true;
+};
+vm.saveUser = function () {
+if (vm.isEditing) {
+// Update existing user
+var index = vm.users.findIndex(u => u.id === vm.currentUser.id);
+vm.users[index] = angular.copy(vm.currentUser);
+} else {
+// Add new user
+vm.users.push(angular.copy(vm.currentUser));
+}
+// Clear the form and reset flags
+vm.currentUser = {};
+vm.isEditing = false;
+};
+vm.deleteUser = function (userId) {
+// Delete user
+var index = vm.users.findIndex(u => u.id === userId);
+vm.users.splice(index, 1);
+};
+});
+</script>
+</body>
+</html>
