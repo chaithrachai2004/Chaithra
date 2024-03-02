@@ -1,0 +1,43 @@
+// C program to check whether a given
+// string is a keyword or not
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+
+// Function to check whether the given string is a keyword
+// or not Returns 'true' if the string is a KEYWORD.
+bool isKeyword(const char* str)
+{
+	char keywords[32][10]
+		= { "auto", "default", "signed", "enum",
+			"extern", "for",	 "register", "if",
+			"else", "int",	 "while", "do",
+			"break", "continue", "double", "float",
+			"return", "char",	 "case",	 "const",
+			"sizeof", "long",	 "short", "typedef",
+			"switch", "unsigned", "void",	 "static",
+			"struct", "goto",	 "union", "volatile" };
+
+	for (int i = 0; i < 32; ++i) {
+		if (strcmp(str, keywords[i]) == 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int main()
+{
+	char input[50];
+	printf("Enter a string: ");
+	scanf("%s", input);
+
+	if (isKeyword(input)) {
+		printf("Yes");
+	}
+	else {
+		printf("No");
+	}
+
+	return 0;
+}
